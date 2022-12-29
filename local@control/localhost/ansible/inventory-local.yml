@@ -3,3 +3,8 @@ all:
     localhost:
   vars:
     ansible_connection: local
+
+  children:
+    remote:
+      hosts:
+        localhost:
