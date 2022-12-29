@@ -8,3 +8,14 @@ all:
     remote:
       hosts:
         localhost:
+
+    linux:
+      hosts:
+        localhost:
+
+    performance:
+      hosts:
+        localhost:
+      vars:
+        performance:
+          result_path: ~/.seed/performance
