@@ -14,6 +14,11 @@ all:
         localhost:
       vars:
         hostname: local-control
+        hosts:
+          dynamic:
+            hostname: true
+          static:
+            - 127.0.0.1 me
 
     performance:
       hosts:
