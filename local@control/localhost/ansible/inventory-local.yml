@@ -12,6 +12,8 @@ all:
     linux:
       hosts:
         localhost:
+      vars:
+        hostname: local-control
 
     performance:
       hosts:
