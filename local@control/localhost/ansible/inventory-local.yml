@@ -19,6 +19,21 @@ all:
             hostname: true
           static:
             - 127.0.0.1 me
+        apt:
+          sources:
+            # check: true
+            # sed: s@http://.*debian.org@http://mirrors.tuna.tsinghua.edu.cn@g
+            cp:
+              - dest: /etc/apt/sources.list
+                backup: true
+                content: |
+                  deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
+                  deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free
+                  deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free
+                  deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
+              - dest: /etc/apt/sources.list
+                backup: true
+                src: "{{ inventory_dir }}/../apt/sources.list"
 
     performance:
       hosts:
