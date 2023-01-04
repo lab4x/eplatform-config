@@ -34,6 +34,22 @@ all:
               - dest: /etc/apt/sources.list
                 backup: true
                 src: "{{ inventory_dir }}/../apt/sources.list"
+        yum:
+          sources:
+            check: false
+            # sed: 
+            #   expression: 
+            #     mirrorlist: s|^mirrorlist=|#mirrorlist=|g
+            #     baseurl: s|^# baseurl=https://repo.almalinux.org|baseurl=https://mirrors.tuna.tsinghua.edu.cn|g
+            #   file: /etc/yum.repos.d/almalinux-*.repo
+            cp:
+              - dest: /etc/yum.repos.d/almalinux.repo
+                backup: true
+                content: |
+                  # almalinux.repo
+              - dest: /etc/yum.repos.d/almalinux.repo
+                backup: true
+                src: "{{ inventory_dir }}/../yum/almalinux.repo"
 
     performance:
       hosts:
