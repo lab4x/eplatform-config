@@ -34,6 +34,11 @@ all:
               - dest: /etc/apt/sources.list
                 backup: true
                 src: "{{ inventory_dir }}/../apt/sources.list"
+          packages:
+            # check: true
+            list:
+              - name: rsync
+                state: present
         yum:
           sources:
             check: false
