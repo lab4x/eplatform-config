@@ -59,7 +59,17 @@ all:
             - Network:
               - Address: "172.19.73.184/20"
               - Gateway: "172.19.73.1"
-
+        netplan:
+          version: 2
+          ethernets:
+            eth0:
+              addresses:
+                - 172.19.73.184/20
+              gateway4: 172.19.73.1
+              nameservers:
+                addresses:
+                - 114.114.114.114
+                search: []
     performance:
       hosts:
         localhost:
