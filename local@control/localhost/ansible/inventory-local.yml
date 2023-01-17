@@ -50,6 +50,8 @@ all:
               - dest: /etc/yum.repos.d/almalinux.repo
                 backup: true
                 src: "{{ inventory_dir }}/../yum/almalinux.repo"
+        pip:
+          mirror: https://pypi.tuna.tsinghua.edu.cn/simple
 
     performance:
       hosts:
