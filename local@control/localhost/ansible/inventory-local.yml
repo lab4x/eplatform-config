@@ -55,6 +55,11 @@ all:
               - dest: /etc/yum.repos.d/almalinux.repo
                 backup: true
                 src: "{{ inventory_dir }}/../yum/almalinux.repo"
+          packages:
+            # check: true
+            list:
+              - name: rsync
+                state: present
         pip:
           mirror: https://pypi.tuna.tsinghua.edu.cn/simple
         networkd:
