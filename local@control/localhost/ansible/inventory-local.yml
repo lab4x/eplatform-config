@@ -52,6 +52,13 @@ all:
                 src: "{{ inventory_dir }}/../yum/almalinux.repo"
         pip:
           mirror: https://pypi.tuna.tsinghua.edu.cn/simple
+        networkd:
+          eth0:
+            - Match:
+              - Name: "eth0"
+            - Network:
+              - Address: "172.19.73.184/20"
+              - Gateway: "172.19.73.1"
 
     performance:
       hosts:
