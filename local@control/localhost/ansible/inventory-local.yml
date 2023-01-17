@@ -70,6 +70,13 @@ all:
                 addresses:
                 - 114.114.114.114
                 search: []
+        nmcli:
+          state: present
+          type: ethernet
+          conn_name: eth0
+          ifname: eth0
+          ip4: 172.19.73.184/20
+          gw4: 1172.19.73.1
     performance:
       hosts:
         localhost:
