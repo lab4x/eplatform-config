@@ -80,7 +80,12 @@ all:
         ufw:
           allow_interface_in: eth0
         firewalld:
-          trusted_interface: eth0
+          trusted_interface: 
+            - eth0
+          public_service: 
+            - mountd
+            - nfs
+
     performance:
       hosts:
         localhost:
