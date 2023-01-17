@@ -79,6 +79,8 @@ all:
           gw4: 1172.19.73.1
         ufw:
           allow_interface_in: eth0
+        firewalld:
+          trusted_interface: eth0
     performance:
       hosts:
         localhost:
