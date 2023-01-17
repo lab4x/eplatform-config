@@ -86,7 +86,7 @@ all:
             - mountd
             - nfs
 
-    performance:
+    linux-master:
       hosts:
         localhost:
       vars:
