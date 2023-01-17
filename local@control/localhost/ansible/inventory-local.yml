@@ -125,3 +125,7 @@ all:
           exports:
             - dir: '/eplatform-data'
               conf: '*(fsid=0,rw,no_root_squash,no_subtree_check,insecure)' 
+
+    docker:
+      hosts:
+        localhost:
