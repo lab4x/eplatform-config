@@ -77,6 +77,8 @@ all:
           ifname: eth0
           ip4: 172.19.73.184/20
           gw4: 1172.19.73.1
+        ufw:
+          allow_interface_in: eth0
     performance:
       hosts:
         localhost:
