@@ -129,3 +129,11 @@ all:
     docker:
       hosts:
         localhost:
+
+    docker-manager:
+      hosts:
+        localhost:
+
+    docker-worker:
+      hosts:
+        # localhost:
