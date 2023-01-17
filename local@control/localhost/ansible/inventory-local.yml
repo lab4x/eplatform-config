@@ -87,3 +87,18 @@ all:
       vars:
         performance:
           result_path: ~/.seed/performance
+    
+    nfs-server:
+      hosts:
+        localhost:
+      vars:
+        nfs:
+          test:
+            point_type: 'nfs4'
+            point_opts: 'rw,sync'
+            point_nfs: "127.0.0.1:/"
+            mount_dir: "/mnt/test-nfs-share"
+            mount_permission: '0777'
+          exports:
+            - dir: '/eplatform-data'
+              conf: '*(fsid=0,rw,no_root_squash,no_subtree_check,insecure)' 
