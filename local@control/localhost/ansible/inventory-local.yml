@@ -27,7 +27,7 @@ all:
             # lineinfile:
             #   - regexp: 'http://.*debian.org'
             #     line: 'http://mirrors.tuna.tsinghua.edu.cn'
-            copy:
+            cp:
               - dest: /etc/apt/sources.list
                 backup: true
                 content: |
@@ -57,7 +57,7 @@ all:
             # lineinfile:
             #   - regexp: '# baseurl=https://repo.almalinux.org'
             #     line: 'baseurl=https://mirrors.tuna.tsinghua.edu.cn'
-            copy:
+            cp:
               - dest: /etc/yum.repos.d/almalinux.repo
                 backup: true
                 content: |
@@ -114,21 +114,21 @@ all:
           #   lineinfile:
           #     - regexp: '^pool'
           #       line: pool pool.ntp.org iburst maxsources 3
-          #   copy:
+          #   cp:
           #     - src: "{{ inventory_dir }}/../chronyd/chronyd.conf"
         ntpd:
           # conf:
           #   lineinfile:
           #     - regexp: '^server 0'
           #       line: server 0.rhel.pool.ntp.org iburst
-          #   copy:
+          #   cp:
           #     - src: "{{ inventory_dir }}/../ntpd/ntp.conf"
         timesyncd:
           # conf:
           #   lineinfile:
           #     - regexp: '^server 0'
           #       line: server 0.rhel.pool.ntp.org iburst
-          #   copy:
+          #   cp:
           #     - src: "{{ inventory_dir }}/../timesyncd/timesyncd.conf"
     linux-master:
       hosts:
