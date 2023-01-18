@@ -21,9 +21,13 @@ all:
             - 127.0.0.1 me
         apt:
           sources:
-            # check: true
-            # sed: s@http://.*debian.org@http://mirrors.tuna.tsinghua.edu.cn@g
-            cp:
+            # sed: 
+            #   - expression: s@http://.*debian.org@http://mirrors.tuna.tsinghua.edu.cn@g
+            #     file: /etc/apt/sources.list
+            # lineinfile:
+            #   - regexp: 'http://.*debian.org'
+            #     line: 'http://mirrors.tuna.tsinghua.edu.cn'
+            copy:
               - dest: /etc/apt/sources.list
                 backup: true
                 content: |
@@ -45,13 +49,15 @@ all:
                 state: present
         yum:
           sources:
-            check: false
             # sed: 
-            #   expression: 
-            #     mirrorlist: s|^mirrorlist=|#mirrorlist=|g
-            #     baseurl: s|^# baseurl=https://repo.almalinux.org|baseurl=https://mirrors.tuna.tsinghua.edu.cn|g
-            #   file: /etc/yum.repos.d/almalinux-*.repo
-            cp:
+            #   - expression: s|^mirrorlist=|#mirrorlist=|g
+            #     file: /etc/yum.repos.d/almalinux-*.repo
+            #   - expression: s|^# baseurl=https://repo.almalinux.org|baseurl=https://mirrors.tuna.tsinghua.edu.cn|g
+            #     file: /etc/yum.repos.d/almalinux-*.repo
+            # lineinfile:
+            #   - regexp: '# baseurl=https://repo.almalinux.org'
+            #     line: 'baseurl=https://mirrors.tuna.tsinghua.edu.cn'
+            copy:
               - dest: /etc/yum.repos.d/almalinux.repo
                 backup: true
                 content: |
