@@ -159,6 +159,45 @@ all:
     docker-manager:
       hosts:
         localhost:
+      vars:
+        postgres:
+          lab:
+            - hostname: docker-desktop 
+              labels:
+                postgres-node: primary
+                # postgres-node: replica
+          net:
+            external_net-postgres: 
+              driver: overlay
+              attachable: true
+          env:
+            primary:
+              # PGHOST: /tmp
+              MAX_CONNECTIONS: 1000
+              MAX_WAL_SENDERS: 6
+              MODE: postgres
+              PG_DATABASE: crunchydata
+              PG_PRIMARY_PORT: 5432
+              PG_MODE: primary
+              PG_USER: crunchydata
+              PG_PASSWORD: postgres.123
+              PG_PRIMARY_USER: primaryuser
+              PG_PRIMARY_PASSWORD: postgres.123
+              PG_ROOT_PASSWORD: postgres.123
+              TZ: Asia/Hong_Kong
+            replica:
+              # PGHOST: /tmp
+              MODE: postgres
+              PG_DATABASE: crunchydata
+              PG_PRIMARY_PORT: 5432
+              PG_MODE: replica
+              PG_USER: crunchydata
+              PG_PASSWORD: postgres.123
+              PG_PRIMARY_USER: primaryuser
+              PG_PRIMARY_PASSWORD: postgres.123
+              PG_ROOT_PASSWORD: postgres.123
+              PG_PRIMARY_HOST: primary
+              TZ: Asia/Hong_Kong
 
     docker-worker:
       hosts:
