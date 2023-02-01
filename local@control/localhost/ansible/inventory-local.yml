@@ -198,6 +198,45 @@ all:
               PG_ROOT_PASSWORD: postgres.123
               PG_PRIMARY_HOST: primary
               TZ: Asia/Hong_Kong
+        elk:
+          dir_copy:
+            - src: "{{ inventory_dir }}/../elk/elasticsearch.yml"
+              dest: "{{ dir_path }}/config/elasticsearch.yml"
+            - src: "{{ inventory_dir }}/../elk/logstash.yml"
+              dest: "{{ dir_path }}/config/logstash.yml"
+            - src: "{{ inventory_dir }}/../elk/logstash.conf"
+              dest: "{{ dir_path }}/config/logstash.conf"
+            - src: "{{ inventory_dir }}/../elk/kibana.yml"
+              dest: "{{ dir_path }}/config/kibana.yml"
+          lab:
+            - hostname: docker-desktop 
+              labels:
+                elk-node: e
+            - hostname: docker-desktop 
+              labels:
+                elk-node: l
+            - hostname: docker-desktop 
+              labels:
+                elk-node: k
+          net:
+            external_net-elk: 
+              driver: overlay
+              attachable: true
+          env:
+            elasticsearch:
+              ES_JAVA_OPTS: "-Xmx2048m -Xmx4096m"
+              ELASTIC_PASSWORD: elastic.123
+              # Use single node discovery in order to disable production mode and avoid bootstrap checks.
+              # see: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
+              discovery.type: single-node
+              # Force publishing on the 'elk' overlay.
+              network.publish_host: _eth0_
+              TZ: Asia/Hong_Kong
+            logstash:
+              LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+              TZ: Asia/Hong_Kong
+            kibana: 
+              TZ: Asia/Hong_Kong
 
     docker-worker:
       hosts:
