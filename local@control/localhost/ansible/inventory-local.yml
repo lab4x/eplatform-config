@@ -282,6 +282,22 @@ all:
               TZ: Asia/Hong_Kong
             syncflux:
               TZ: Asia/Hong_Kong
+        telegraf:
+          dir_copy:
+            - src: "{{ inventory_dir }}/../telegraf/telegraf.conf"
+              dest: "{{ dir_path }}/config/telegraf.conf"
+          net:
+            external_net-influxdb: 
+              driver: overlay
+              attachable: true
+          env:
+            TZ: Asia/Hong_Kong
+          wait:
+            network:
+              - external_net-influxdb
+            port:
+              influxdb: 8086
+          # gid: 999
 
     docker-worker:
       hosts:
