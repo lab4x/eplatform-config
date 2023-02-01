@@ -255,22 +255,25 @@ all:
           dir_copy:
             - src: "{{ inventory_dir }}/../influxdb/influxdb.conf"
               dest: "{{ dir_path }}/config/influxdb.conf"
-            - src: "{{ inventory_dir }}/../influxdb/syncflux.conf"
-              dest: "{{ dir_path }}/config/syncflux.conf"
+            - src: "{{ inventory_dir }}/../influxdb/syncflux.toml"
+              dest: "{{ dir_path }}/config/syncflux.toml"
             - src: "{{ inventory_dir }}/../influxdb/influxdb-srelay.conf"
               dest: "{{ dir_path }}/config/influxdb-srelay.conf"
           lab:
             - hostname: docker-desktop 
               labels:
-                influxdb-node: master
+                influxdb-node: 'true'
+                # influxdb-node: master
                 # influxdb-node: srelay
-                influxdb-syncflux: true
-                influxdb-srelay: true
+                # influxdb-syncflux: 'true'
+                # influxdb-srelay: 'true'
           net:
             external_net-influxdb: 
               driver: overlay
               attachable: true
           env:
+            influxdb:
+              TZ: Asia/Hong_Kong
             master:
               TZ: Asia/Hong_Kong
             slave:
