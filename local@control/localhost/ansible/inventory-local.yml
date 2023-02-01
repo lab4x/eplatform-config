@@ -251,6 +251,34 @@ all:
               - external_net-elk
             port:
               logstash: 5000
+        influxdb:
+          dir_copy:
+            - src: "{{ inventory_dir }}/../influxdb/influxdb.conf"
+              dest: "{{ dir_path }}/config/influxdb.conf"
+            - src: "{{ inventory_dir }}/../influxdb/syncflux.conf"
+              dest: "{{ dir_path }}/config/syncflux.conf"
+            - src: "{{ inventory_dir }}/../influxdb/influxdb-srelay.conf"
+              dest: "{{ dir_path }}/config/influxdb-srelay.conf"
+          lab:
+            - hostname: docker-desktop 
+              labels:
+                influxdb-node: master
+                # influxdb-node: srelay
+                influxdb-syncflux: true
+                influxdb-srelay: true
+          net:
+            external_net-influxdb: 
+              driver: overlay
+              attachable: true
+          env:
+            master:
+              TZ: Asia/Hong_Kong
+            slave:
+              TZ: Asia/Hong_Kong
+            srelay:
+              TZ: Asia/Hong_Kong
+            syncflux:
+              TZ: Asia/Hong_Kong
 
     docker-worker:
       hosts:
