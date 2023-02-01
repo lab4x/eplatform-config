@@ -237,6 +237,20 @@ all:
               TZ: Asia/Hong_Kong
             kibana: 
               TZ: Asia/Hong_Kong
+        logspout:
+          net:
+            external_net-elk: 
+              driver: overlay
+              attachable: true
+          env:
+            ROUTE_URIS: logstash://logstash:5000
+            LOGSTASH_TAGS: docker-elk
+            TZ: Asia/Hong_Kong
+          wait:
+            network:
+              - external_net-elk
+            port:
+              logstash: 5000
 
     docker-worker:
       hosts:
