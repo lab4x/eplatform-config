@@ -173,7 +173,7 @@ all:
       hosts:
         localhost:
       vars:
-        nfs:
+        nfs_kernel:
           test:
             point_type: 'nfs4'
             point_opts: 'rw,sync'
@@ -334,3 +334,39 @@ all:
     docker-worker:
       hosts:
         # localhost:
+
+    docker-nfs-node:
+      hosts:
+        localhost:
+      vars:
+        nfs_node:
+          dir_copy:
+            - src: "{{ inventory_dir }}/../nfs/exports"
+              dest: "{{ dir_path }}/exports/exports"
+            - src: "{{ inventory_dir }}/../nfs/data/"
+              dest: "{{ dir_path }}/data"
+          vol:
+            external_vol-erichough-nfs-server:
+              driver: local
+              # driver_opts:
+              #   type: none
+              #   device: "{{ dir_path }}/data"
+              #   o: bind
+          vol_cp:
+            external_vol-erichough-nfs-server:
+              src: "{{ inventory_dir }}/../nfs/data/"
+              dest: "./"
+          env:
+            TZ: Asia/Hong_Kong
+            NFS_LOG_LEVEL: DEBUG
+          
+          exports:
+            dir_copy:
+              - src: "{{ inventory_dir }}/../nfs/exports"
+                dest: "{{ dir_path }}/../exports/exports"
+              - src: "{{ inventory_dir }}/../nfs/data/"
+                dest: "{{ dir_path }}/../data"
+            vol_cp:
+              external_vol-erichough-nfs-server:
+                src: "{{ inventory_dir }}/../nfs/data/"
+                dest: "./"
