@@ -1,0 +1,11 @@
+# ansible-galaxy install -r requirements.yml
+
+collections:
+  - name: community.general
+
+  - name: community.docker
+
+roles:
+  - name: gekmihesg.openwrt
+
+  - name: mrlesmithjr.netplan
