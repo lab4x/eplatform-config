@@ -192,6 +192,59 @@ all:
       hosts:
         localhost:
       vars:
+        # CAREFUL: variables merged with same host at other group
+        # https://docs.ansible.com/ansible/2.7/user_guide/intro_inventory.html#how-variables-are-merged
+        nfs:
+          service:
+            on_desktop:
+              type: docker
+              host: "docker-desktop"
+              addr: "docker-desktop"
+        grafana:
+          dir_copy:
+            - src: "{{ inventory_dir }}/../grafana/dashboard.yml"
+              dest: "{{ dir_path }}/config/dashboard.yml"
+            - src: "{{ inventory_dir }}/../grafana/datasource.yml"
+              dest: "{{ dir_path }}/config/datasource.yml"
+          lab:
+            - hostname: docker-desktop 
+              labels:
+                grafana-node: 'true'
+          net:
+            external_net-postgres: 
+              driver: overlay
+              attachable: true
+            external_net-influxdb: 
+              driver: overlay
+              attachable: true
+            external_net-kafka: 
+              driver: overlay
+              attachable: true
+            external_net-prometheus: 
+              driver: overlay
+              attachable: true
+          env:
+            GF_SECURITY_ADMIN_PASSWORD: grafana.123
+            GF_USERS_ALLOW_SIGN_UP: false
+          dashboards:
+            dir_copy: 
+              - src: "{{ inventory_dir }}/../grafana/dashboards/"
+                dest: "{{ dir_path }}/config/"
+            nfs_exports: "/data/grafana-dashboards  *(rw,no_root_squash,no_subtree_check,insecure)"
+            nfs_wait:
+              on_desktop:
+                point: "/grafana-dashboards"
+                mount: "{{ dir_path }}/.nfs"
+                option: "vers=4,loud,rw,sync"
+                unmount: false
+                retry: 5
+            nfs_copy:
+              on_desktop:
+                src: "{{ inventory_dir }}/../grafana/dashboards"
+                dest: /grafana-dashboards
+                mount: "{{ dir_path }}/.nfs"
+                option: "vers=4,loud,rw,sync"
+                unmount: false
         postgres:
           lab:
             - hostname: docker-desktop 
@@ -278,6 +331,9 @@ all:
             ROUTE_URIS: logstash://logstash:5000
             LOGSTASH_TAGS: docker-elk
             TZ: Asia/Hong_Kong
+          # network_wait:
+          #   external_net-elk:
+          #     logstash: 5000
           wait:
             network:
               - external_net-elk
@@ -324,6 +380,9 @@ all:
               attachable: true
           env:
             TZ: Asia/Hong_Kong
+          # network_wait:
+          #   external_net-influxdb:
+          #     influxdb: 8086
           wait:
             network:
               - external_net-influxdb
