@@ -4,9 +4,6 @@ all:
   vars:
     ansible_connection: local
 
-    workspace:
-      remote: "~/.seed/remote_eplatform"
-
     local:
       # init:
       #   package:
@@ -23,6 +20,7 @@ all:
       #     - community.general
 
     remote:
+      workspace: "~/.seed/remote_eplatform"
       # init:
       #   ssh: "{{ inventory_dir }}/../../../../.seed/ansible-playbook/remote-ssh.init.yml"
       #   system: "{{ inventory_dir }}/../../../../.seed/ansible-playbook/remote-system.init.yml"
