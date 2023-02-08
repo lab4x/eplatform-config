@@ -7,6 +7,7 @@ all:
     workspace:
       remote: "~/.seed/remote_eplatform"
 
+    local:
       # init:
       #   package:
       #     - sshpass
@@ -20,8 +21,25 @@ all:
       #   collection:
       #     - community.docker
       #     - community.general
+
+    remote:
+      # init:
       #   ssh: "{{ inventory_dir }}/../../../../.seed/ansible-playbook/remote-ssh.init.yml"
+      #   system: "{{ inventory_dir }}/../../../../.seed/ansible-playbook/remote-system.init.yml"
       #   docker: "{{ inventory_dir }}/../../../../.seed/ansible-playbook/remote-docker.init.yml"
+      #   package: 
+      #     - python3-pip
+      #     - rsync
+      #   pip:
+      #     - jsondiff
+      #     - jmespath
+
+      #     - pyyaml
+      #     - lxml
+      #     - requests
+
+      #     - docker
+      #     - docker-compose
 
   children:
     linux:
