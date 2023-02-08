@@ -5,6 +5,7 @@ all:
     ansible_connection: local
 
     local:
+      workspace: "{{ inventory_dir }}/../../../../"
       # init:
       #   package:
       #     - sshpass
