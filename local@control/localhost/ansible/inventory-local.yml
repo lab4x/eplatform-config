@@ -203,9 +203,9 @@ all:
         grafana:
           dir_copy:
             - src: "{{ inventory_dir }}/../grafana/dashboard.yml"
-              dest: "{{ dir_path }}/config/dashboard.yml"
+              dest: "{{ dir.remote }}/config/dashboard.yml"
             - src: "{{ inventory_dir }}/../grafana/datasource.yml"
-              dest: "{{ dir_path }}/config/datasource.yml"
+              dest: "{{ dir.remote }}/config/datasource.yml"
           lab:
             - hostname: docker-desktop 
               labels:
@@ -229,12 +229,12 @@ all:
           dashboards:
             dir_copy: 
               - src: "{{ inventory_dir }}/../grafana/dashboards/"
-                dest: "{{ dir_path }}/config/"
+                dest: "{{ dir.remote }}/config/"
             nfs_exports: "/data/grafana-dashboards  *(rw,no_root_squash,no_subtree_check,insecure)"
             nfs_wait:
               on_desktop:
                 point: "/grafana-dashboards"
-                mount: "{{ dir_path }}/.nfs"
+                mount: "{{ dir.remote }}/.nfs"
                 option: "vers=4,loud,rw,sync"
                 unmount: false
                 retry: 5
@@ -242,7 +242,7 @@ all:
               on_desktop:
                 src: "{{ inventory_dir }}/../grafana/dashboards"
                 dest: /grafana-dashboards
-                mount: "{{ dir_path }}/.nfs"
+                mount: "{{ dir.remote }}/.nfs"
                 option: "vers=4,loud,rw,sync"
                 unmount: false
         postgres:
@@ -286,13 +286,13 @@ all:
         elk:
           dir_copy:
             - src: "{{ inventory_dir }}/../elk/elasticsearch.yml"
-              dest: "{{ dir_path }}/config/elasticsearch.yml"
+              dest: "{{ dir.remote }}/config/elasticsearch.yml"
             - src: "{{ inventory_dir }}/../elk/logstash.yml"
-              dest: "{{ dir_path }}/config/logstash.yml"
+              dest: "{{ dir.remote }}/config/logstash.yml"
             - src: "{{ inventory_dir }}/../elk/logstash.conf"
-              dest: "{{ dir_path }}/config/logstash.conf"
+              dest: "{{ dir.remote }}/config/logstash.conf"
             - src: "{{ inventory_dir }}/../elk/kibana.yml"
-              dest: "{{ dir_path }}/config/kibana.yml"
+              dest: "{{ dir.remote }}/config/kibana.yml"
           lab:
             - hostname: docker-desktop 
               labels:
@@ -342,11 +342,11 @@ all:
         influxdb:
           dir_copy:
             - src: "{{ inventory_dir }}/../influxdb/influxdb.conf"
-              dest: "{{ dir_path }}/config/influxdb.conf"
+              dest: "{{ dir.remote }}/config/influxdb.conf"
             - src: "{{ inventory_dir }}/../influxdb/syncflux.toml"
-              dest: "{{ dir_path }}/config/syncflux.toml"
+              dest: "{{ dir.remote }}/config/syncflux.toml"
             - src: "{{ inventory_dir }}/../influxdb/influxdb-srelay.conf"
-              dest: "{{ dir_path }}/config/influxdb-srelay.conf"
+              dest: "{{ dir.remote }}/config/influxdb-srelay.conf"
           lab:
             - hostname: docker-desktop 
               labels:
@@ -373,7 +373,7 @@ all:
         telegraf:
           dir_copy:
             - src: "{{ inventory_dir }}/../telegraf/telegraf.conf"
-              dest: "{{ dir_path }}/config/telegraf.conf"
+              dest: "{{ dir.remote }}/config/telegraf.conf"
           net:
             external_net-influxdb: 
               driver: overlay
@@ -401,15 +401,15 @@ all:
         nfs_node:
           dir_copy:
             - src: "{{ inventory_dir }}/../nfs/exports"
-              dest: "{{ dir_path }}/exports/exports"
+              dest: "{{ dir.remote }}/exports/exports"
             - src: "{{ inventory_dir }}/../nfs/data/"
-              dest: "{{ dir_path }}/data"
+              dest: "{{ dir.remote }}/data"
           vol:
             external_vol-erichough-nfs-server:
               driver: local
               # driver_opts:
               #   type: none
-              #   device: "{{ dir_path }}/data"
+              #   device: "{{ dir.remote }}/data"
               #   o: bind
           vol_cp:
             external_vol-erichough-nfs-server:
@@ -422,9 +422,9 @@ all:
           exports:
             dir_copy:
               - src: "{{ inventory_dir }}/../nfs/exports"
-                dest: "{{ dir_path }}/../exports/exports"
+                dest: "{{ dir.remote }}/../exports/exports"
               - src: "{{ inventory_dir }}/../nfs/data/"
-                dest: "{{ dir_path }}/../data"
+                dest: "{{ dir.remote }}/../data"
             vol_cp:
               external_vol-erichough-nfs-server:
                 src: "{{ inventory_dir }}/../nfs/data/"
