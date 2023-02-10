@@ -21,7 +21,7 @@ all:
       #     - community.general
 
     remote:
-      workspace: "~/.seed/remote_eplatform"
+      # workspace: "~/.seed/remote_eplatform"
       # init:
       #   ssh: "{{ inventory_dir }}/../../../../.seed/ansible-playbook/remote-ssh.init.yml"
       #   system: "{{ inventory_dir }}/../../../../.seed/ansible-playbook/remote-system.init.yml"
