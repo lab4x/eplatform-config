@@ -6,7 +6,10 @@ all:
 
     local:
       workspace: "{{ inventory_dir }}/../../../../"
-      # init:
+      # init: 
+      #   ssh: 
+      #     hosts: ssh
+      #     keyscan: ed25519
       #   package:
       #     - sshpass
       #     - rsync
@@ -23,9 +26,8 @@ all:
     remote:
       # workspace: "~/.seed/remote_eplatform"
       # init:
-      #   ssh: "{{ inventory_dir }}/../../../../.seed/ansible-playbook/remote-ssh.init.yml"
-      #   system: "{{ inventory_dir }}/../../../../.seed/ansible-playbook/remote-system.init.yml"
-      #   docker: "{{ inventory_dir }}/../../../../.seed/ansible-playbook/remote-docker.init.yml"
+      #   ssh: "{{ inventory_dir }}/../../../../.seed/ansible-tasks/seed-ssh.approve.yml"
+      #   system: "{{ inventory_dir }}/../../../../.seed/ansible-tasks/seed-docker.init.yml"
       #   package: 
       #     - python3-pip
       #     - rsync
