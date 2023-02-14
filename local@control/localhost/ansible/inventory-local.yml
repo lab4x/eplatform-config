@@ -1,268 +1,294 @@
 all:
-  hosts:
-    localhost:
-  vars:
-    ansible_connection: local
-
-    local:
-      workspace: "{{ inventory_dir }}/../../../../"
-      # init: 
-      #   ssh: 
-      #     hosts: ssh
-      #     keyscan: ed25519
-      #   package:
-      #     - sshpass
-      #     - rsync
-      #     - git
-      #   pip:
-      #     - jsondiff
-      #     - pyyaml
-      #     - lxml
-      #   role: []
-      #   collection:
-      #     - community.docker
-      #     - community.general
-
-    remote:
-      # workspace: "~/.seed/remote_eplatform"
-      # init:
-      #   ssh: "{{ inventory_dir }}/../../../../.seed/ansible-tasks/seed-ssh.approve.yml"
-      #   system: "{{ inventory_dir }}/../../../../.seed/ansible-tasks/seed-docker.init.yml"
-      #   package: 
-      #     - python3-pip
-      #     - rsync
-      #   pip:
-      #     - jsondiff
-      #     - jmespath
-
-      #     - pyyaml
-      #     - lxml
-      #     - requests
-
-      #     - docker
-      #     - docker-compose
-
-  children:
-    linux:
-      hosts:
-        localhost:
-      vars:
-        hostname: local-control
+    hosts:
+      localhost:
+    vars:
+      ansible_connection: local
+  
+      local:
+        workspace: "{{ inventory_dir }}/../../../../"
+        # init: 
+        #   ssh: 
+        #     hosts: ssh
+        #     keyscan: ed25519
+        #   package:
+        #     - sshpass
+        #     - rsync
+        #     - git
+        #   pip:
+        #     - jsondiff
+        #     - pyyaml
+        #     - lxml
+        #   role: []
+        #   collection:
+        #     - community.docker
+        #     - community.general
+  
+      remote:
+        # workspace: "~/.seed/remote_eplatform"
+        # init:
+        #   ssh: "{{ inventory_dir }}/../../../../.seed/ansible-tasks/seed-ssh.approve.yml"
+        #   system: "{{ inventory_dir }}/../../../../.seed/ansible-tasks/seed-docker.init.yml"
+        #   package: 
+        #     - python3-pip
+        #     - rsync
+        #   pip:
+        #     - jsondiff
+        #     - jmespath
+  
+        #     - pyyaml
+        #     - lxml
+        #     - requests
+  
+        #     - docker
+        #     - docker-compose
+  
+    children:
+      linux:
         hosts:
-          dynamic:
-            hostname: true
-          static:
-            - 127.0.0.1 me
-        apt:
-          sources:
-            # sed: 
-            #   - expression: s@http://.*debian.org@http://mirrors.tuna.tsinghua.edu.cn@g
-            #     file: /etc/apt/sources.list
-            # lineinfile:
-            #   - regexp: 'http://.*debian.org'
-            #     line: 'http://mirrors.tuna.tsinghua.edu.cn'
-            cp:
-              - dest: /etc/apt/sources.list
-                backup: true
-                content: |
-                  deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
-                  deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free
-                  deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free
-                  deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
-              - dest: /etc/apt/sources.list
-                backup: true
-                src: "{{ inventory_dir }}/../apt/sources.list"
-          packages:
-            # check: true
-            list:
-              - name: rsync
-                state: present
-              - name:
-                  - ntpdate
-                  - chrony
-                state: present
-        yum:
-          sources:
-            # sed: 
-            #   - expression: s|^mirrorlist=|#mirrorlist=|g
-            #     file: /etc/yum.repos.d/almalinux-*.repo
-            #   - expression: s|^# baseurl=https://repo.almalinux.org|baseurl=https://mirrors.tuna.tsinghua.edu.cn|g
-            #     file: /etc/yum.repos.d/almalinux-*.repo
-            # lineinfile:
-            #   - regexp: '# baseurl=https://repo.almalinux.org'
-            #     line: 'baseurl=https://mirrors.tuna.tsinghua.edu.cn'
-            cp:
-              - dest: /etc/yum.repos.d/almalinux.repo
-                backup: true
-                content: |
-                  # almalinux.repo
-              - dest: /etc/yum.repos.d/almalinux.repo
-                backup: true
-                src: "{{ inventory_dir }}/../yum/almalinux.repo"
-          packages:
-            # check: true
-            list:
-              - name: rsync
-                state: present
-              - name:
-                  - ntpdate
-                  - chrony
-                state: present
-        pip:
-          mirror: https://pypi.tuna.tsinghua.edu.cn/simple
-        networkd:
-          eth0:
-            - Match:
-              - Name: "eth0"
-            - Network:
-              - Address: "172.19.73.184/20"
-              - Gateway: "172.19.73.1"
-        netplan:
-          version: 2
-          ethernets:
+          localhost:
+        vars:
+          hostname: local-control
+          hosts:
+            dynamic:
+              hostname: true
+            static:
+              - 127.0.0.1 me
+          apt:
+            sources:
+              # sed: 
+              #   - expression: s@http://.*debian.org@http://mirrors.tuna.tsinghua.edu.cn@g
+              #     file: /etc/apt/sources.list
+              # lineinfile:
+              #   - regexp: 'http://.*debian.org'
+              #     line: 'http://mirrors.tuna.tsinghua.edu.cn'
+              cp:
+                - dest: /etc/apt/sources.list
+                  backup: true
+                  content: |
+                    deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
+                    deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free
+                    deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free
+                    deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
+                - dest: /etc/apt/sources.list
+                  backup: true
+                  src: "{{ inventory_dir }}/../apt/sources.list"
+            packages:
+              # check: true
+              list:
+                - name: rsync
+                  state: present
+                - name:
+                    - ntpdate
+                    - chrony
+                  state: present
+          yum:
+            sources:
+              # sed: 
+              #   - expression: s|^mirrorlist=|#mirrorlist=|g
+              #     file: /etc/yum.repos.d/almalinux-*.repo
+              #   - expression: s|^# baseurl=https://repo.almalinux.org|baseurl=https://mirrors.tuna.tsinghua.edu.cn|g
+              #     file: /etc/yum.repos.d/almalinux-*.repo
+              # lineinfile:
+              #   - regexp: '# baseurl=https://repo.almalinux.org'
+              #     line: 'baseurl=https://mirrors.tuna.tsinghua.edu.cn'
+              cp:
+                - dest: /etc/yum.repos.d/almalinux.repo
+                  backup: true
+                  content: |
+                    # almalinux.repo
+                - dest: /etc/yum.repos.d/almalinux.repo
+                  backup: true
+                  src: "{{ inventory_dir }}/../yum/almalinux.repo"
+            packages:
+              # check: true
+              list:
+                - name: rsync
+                  state: present
+                - name:
+                    - ntpdate
+                    - chrony
+                  state: present
+          pip:
+            mirror: https://pypi.tuna.tsinghua.edu.cn/simple
+          networkd:
             eth0:
-              addresses:
-                - 172.19.73.184/20
-              gateway4: 172.19.73.1
-              nameservers:
+              - Match:
+                - Name: "eth0"
+              - Network:
+                - Address: "172.19.73.184/20"
+                - Gateway: "172.19.73.1"
+          netplan:
+            version: 2
+            ethernets:
+              eth0:
                 addresses:
-                - 114.114.114.114
-                search: []
-        nmcli:
-          state: present
-          type: ethernet
-          conn_name: eth0
-          ifname: eth0
-          ip4: 172.19.73.184/20
-          gw4: 1172.19.73.1
-        ufw:
-          allow_interface_in: eth0
-        firewalld:
-          trusted_interface: 
-            - eth0
-          public_service: 
-            - mountd
-            - nfs
-        chronyd:
-          # conf:
-          #   lineinfile:
-          #     - regexp: '^pool'
-          #       line: pool pool.ntp.org iburst maxsources 3
-          #   cp:
-          #     - src: "{{ inventory_dir }}/../chronyd/chronyd.conf"
-        ntpd:
-          # conf:
-          #   lineinfile:
-          #     - regexp: '^server 0'
-          #       line: server 0.rhel.pool.ntp.org iburst
-          #   cp:
-          #     - src: "{{ inventory_dir }}/../ntpd/ntp.conf"
-        timesyncd:
-          # conf:
-          #   lineinfile:
-          #     - regexp: '^server 0'
-          #       line: server 0.rhel.pool.ntp.org iburst
-          #   cp:
-          #     - src: "{{ inventory_dir }}/../timesyncd/timesyncd.conf"
-    linux-master:
-      hosts:
-        localhost:
-      vars:
-        performance:
-          result_path: ~/.seed/performance
-    
-    nfs-server:
-      hosts:
-        localhost:
-      vars:
-        nfs_kernel:
-          test:
-            point_type: 'nfs4'
-            point_opts: 'rw,sync'
-            point_nfs: "127.0.0.1:/"
-            mount_dir: "/mnt/test-nfs-share"
-            mount_permission: '0777'
-          exports:
-            - dir: '/eplatform-data'
-              conf: '*(fsid=0,rw,no_root_squash,no_subtree_check,insecure)' 
-
-    docker:
-      hosts:
-        localhost:
-      vars:
-        # CAREFUL: variables merged with same host at other group
-        # https://docs.ansible.com/ansible/2.7/user_guide/intro_inventory.html#how-variables-are-merged
-        nfs:
-          dir_copy:
-            - src: "{{ inventory_dir }}/../nfs/exports"
-              dest: "{{ dir.remote }}/exports/exports"
-          vol:
-            external_vol-erichough-nfs-server:
-              driver: local
-              # driver_opts:
-              #   type: none
-              #   device: "{{ dir.remote }}/data"
-              #   o: bind
-          vol_cp:
-            external_vol-erichough-nfs-server:
-              src: "{{ inventory_dir }}/../nfs/data/"
-              dest: "./"
-              directory_mode: '0777'
-          env:
-            TZ: Asia/Hong_Kong
-            NFS_LOG_LEVEL: DEBUG
-          
-          exports:
+                  - 172.19.73.184/20
+                gateway4: 172.19.73.1
+                nameservers:
+                  addresses:
+                  - 114.114.114.114
+                  search: []
+          nmcli:
+            state: present
+            type: ethernet
+            conn_name: eth0
+            ifname: eth0
+            ip4: 172.19.73.184/20
+            gw4: 1172.19.73.1
+          ufw:
+            allow_interface_in: eth0
+          firewalld:
+            trusted_interface: 
+              - eth0
+            public_service: 
+              - mountd
+              - nfs
+          chronyd:
+            # conf:
+            #   lineinfile:
+            #     - regexp: '^pool'
+            #       line: pool pool.ntp.org iburst maxsources 3
+            #   cp:
+            #     - src: "{{ inventory_dir }}/../chronyd/chronyd.conf"
+          ntpd:
+            # conf:
+            #   lineinfile:
+            #     - regexp: '^server 0'
+            #       line: server 0.rhel.pool.ntp.org iburst
+            #   cp:
+            #     - src: "{{ inventory_dir }}/../ntpd/ntp.conf"
+          timesyncd:
+            # conf:
+            #   lineinfile:
+            #     - regexp: '^server 0'
+            #       line: server 0.rhel.pool.ntp.org iburst
+            #   cp:
+            #     - src: "{{ inventory_dir }}/../timesyncd/timesyncd.conf"
+      linux-master:
+        hosts:
+          localhost:
+        vars:
+          performance:
+            result_path: ~/.seed/performance
+      
+      nfs-server:
+        hosts:
+          localhost:
+        vars:
+          nfs_kernel:
+            test:
+              point_type: 'nfs4'
+              point_opts: 'rw,sync'
+              point_nfs: "127.0.0.1:/"
+              mount_dir: "/mnt/test-nfs-share"
+              mount_permission: '0777'
+            exports:
+              - dir: '/eplatform-data'
+                conf: '*(fsid=0,rw,no_root_squash,no_subtree_check,insecure)' 
+  
+      docker:
+        hosts:
+          localhost:
+        vars:
+          # CAREFUL: variables merged with same host at other group
+          # https://docs.ansible.com/ansible/2.7/user_guide/intro_inventory.html#how-variables-are-merged
+          nfs:
             dir_copy:
               - src: "{{ inventory_dir }}/../nfs/exports"
-                dest: "{{ dir.remote }}/../exports/exports"
+                dest: "{{ dir.remote }}/exports/exports"
+            vol:
+              external_vol-erichough-nfs-server:
+                driver: local
+                # driver_opts:
+                #   type: none
+                #   device: "{{ dir.remote }}/data"
+                #   o: bind
             vol_cp:
               external_vol-erichough-nfs-server:
                 src: "{{ inventory_dir }}/../nfs/data/"
                 dest: "./"
                 directory_mode: '0777'
+            env:
+              TZ: Asia/Hong_Kong
+              NFS_LOG_LEVEL: DEBUG
+            
+            exports:
+              dir_copy:
+                - src: "{{ inventory_dir }}/../nfs/exports"
+                  dest: "{{ dir.remote }}/../exports/exports"
+              vol_cp:
+                external_vol-erichough-nfs-server:
+                  src: "{{ inventory_dir }}/../nfs/data/"
+                  dest: "./"
+                  directory_mode: '0777'
+  
+            service:
+              on_desktop:
+                type: docker
+                host: "docker-desktop"
+                addr: "docker-desktop"
 
-          service:
-            on_desktop:
-              type: docker
-              host: "docker-desktop"
-              addr: "docker-desktop"
-
-    docker-manager:
-      hosts:
-        localhost:
-      vars:
         grafana:
+          # TODO add exports
+          # nfs_exports: 
+          #   - "/data/grafana-lib         *(rw,no_root_squash,no_subtree_check,insecure)"
+          #   - "/data/grafana-dashboards  *(rw,no_root_squash,no_subtree_check,insecure)"
+          # only for stack-standalone-failover
+          nfs_wait:
+            - name: on_desktop
+              point: "/grafana-lib"
+              mount: "/mnt/nfs/grafana-lib"
+              option: "vers=4,loud,rw,sync"
+              unmount: true
+              retry: 5
+            - name: on_desktop
+              point: "/grafana-dashboards"
+              mount: "/mnt/nfs/grafana-dashboards"
+              option: "vers=4,loud,rw,sync"
+              unmount: true
+              retry: 5
           dir_copy:
             - src: "{{ inventory_dir }}/../grafana/dashboard.yml"
               dest: "{{ dir.remote }}/config/dashboard.yml"
             - src: "{{ inventory_dir }}/../grafana/datasource.yml"
               dest: "{{ dir.remote }}/config/datasource.yml"
+          # only for stack-standalone-failover
+          vol:
+            external_vol-grafana-lib:
+              driver: local
+              driver_opts:
+                type: none
+                device: "{{ dir.remote }}/lib"
+                o: bind
+            external_vol-grafana-dashboards:
+              driver: local
+              driver_opts:
+                type: none
+                device: "{{ dir.remote }}/dashboards"
+                o: bind
+          net:
+            external_net-postgres:
+              driver: overlay
+              attachable: true
+            external_net-influxdb:
+              driver: overlay
+              attachable: true
+            external_net-kafka:
+              driver: overlay
+              attachable: true
+            external_net-prometheus:
+              driver: overlay
+              attachable: true
           lab:
-            - hostname: docker-desktop 
+            - hostname: docker-desktop
               labels:
                 grafana-node: 'true'
-          net:
-            external_net-postgres: 
-              driver: overlay
-              attachable: true
-            external_net-influxdb: 
-              driver: overlay
-              attachable: true
-            external_net-kafka: 
-              driver: overlay
-              attachable: true
-            external_net-prometheus: 
-              driver: overlay
-              attachable: true
           env:
             GF_SECURITY_ADMIN_PASSWORD: grafana.123
             GF_USERS_ALLOW_SIGN_UP: false
+
           dashboards:
-            dir_copy: 
-              - src: "{{ inventory_dir }}/../grafana/dashboards/"
-                dest: "{{ dir.remote }}/config/"
-            nfs_exports: "/data/grafana-dashboards  *(rw,no_root_squash,no_subtree_check,insecure)"
+            # only for stack-standalone-failover
             nfs_wait:
               on_desktop:
                 point: "/grafana-dashboards"
@@ -270,162 +296,179 @@ all:
                 option: "vers=4,loud,rw,sync"
                 unmount: false
                 retry: 5
+            dir_copy: 
+              - src: "{{ inventory_dir }}/../grafana/dashboards/"
+                dest: "{{ dir.remote }}/dashboards/config/"
+            # only for stack-standalone-failover
             nfs_copy:
               on_desktop:
-                src: "{{ inventory_dir }}/../grafana/dashboards"
+                remote_src: true
+                src: "{{ dir.remote }}/dashboards/config/"
                 dest: /grafana-dashboards
                 mount: "{{ dir.remote }}/.nfs"
                 option: "vers=4,loud,rw,sync"
                 unmount: false
-        postgres:
-          lab:
-            - hostname: docker-desktop 
-              labels:
-                postgres-node: primary
-                # postgres-node: replica
-          net:
-            external_net-postgres: 
-              driver: overlay
-              attachable: true
-          env:
-            primary:
-              # PGHOST: /tmp
-              MAX_CONNECTIONS: 1000
-              MAX_WAL_SENDERS: 6
-              MODE: postgres
-              PG_DATABASE: crunchydata
-              PG_PRIMARY_PORT: 5432
-              PG_MODE: primary
-              PG_USER: crunchydata
-              PG_PASSWORD: postgres.123
-              PG_PRIMARY_USER: primaryuser
-              PG_PRIMARY_PASSWORD: postgres.123
-              PG_ROOT_PASSWORD: postgres.123
-              TZ: Asia/Hong_Kong
-            replica:
-              # PGHOST: /tmp
-              MODE: postgres
-              PG_DATABASE: crunchydata
-              PG_PRIMARY_PORT: 5432
-              PG_MODE: replica
-              PG_USER: crunchydata
-              PG_PASSWORD: postgres.123
-              PG_PRIMARY_USER: primaryuser
-              PG_PRIMARY_PASSWORD: postgres.123
-              PG_ROOT_PASSWORD: postgres.123
-              PG_PRIMARY_HOST: primary
-              TZ: Asia/Hong_Kong
-        elk:
-          dir_copy:
-            - src: "{{ inventory_dir }}/../elk/elasticsearch.yml"
-              dest: "{{ dir.remote }}/config/elasticsearch.yml"
-            - src: "{{ inventory_dir }}/../elk/logstash.yml"
-              dest: "{{ dir.remote }}/config/logstash.yml"
-            - src: "{{ inventory_dir }}/../elk/logstash.conf"
-              dest: "{{ dir.remote }}/config/logstash.conf"
-            - src: "{{ inventory_dir }}/../elk/kibana.yml"
-              dest: "{{ dir.remote }}/config/kibana.yml"
-          lab:
-            - hostname: docker-desktop 
-              labels:
-                elk-node: e
-            - hostname: docker-desktop 
-              labels:
-                elk-node: l
-            - hostname: docker-desktop 
-              labels:
-                elk-node: k
-          net:
-            external_net-elk: 
-              driver: overlay
-              attachable: true
-          env:
-            elasticsearch:
-              ES_JAVA_OPTS: "-Xmx2048m -Xmx4096m"
-              ELASTIC_PASSWORD: elastic.123
-              # Use single node discovery in order to disable production mode and avoid bootstrap checks.
-              # see: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
-              discovery.type: single-node
-              # Force publishing on the 'elk' overlay.
-              network.publish_host: _eth0_
-              TZ: Asia/Hong_Kong
-            logstash:
-              LS_JAVA_OPTS: "-Xmx256m -Xms256m"
-              TZ: Asia/Hong_Kong
-            kibana: 
-              TZ: Asia/Hong_Kong
-        logspout:
-          net:
-            external_net-elk: 
-              driver: overlay
-              attachable: true
-          env:
-            ROUTE_URIS: logstash://logstash:5000
-            LOGSTASH_TAGS: docker-elk
-            TZ: Asia/Hong_Kong
-          # network_wait:
-          #   external_net-elk:
-          #     logstash: 5000
-          wait:
-            network:
-              - external_net-elk
-            port:
-              logstash: 5000
-        influxdb:
-          dir_copy:
-            - src: "{{ inventory_dir }}/../influxdb/influxdb.conf"
-              dest: "{{ dir.remote }}/config/influxdb.conf"
-            - src: "{{ inventory_dir }}/../influxdb/syncflux.toml"
-              dest: "{{ dir.remote }}/config/syncflux.toml"
-            - src: "{{ inventory_dir }}/../influxdb/influxdb-srelay.conf"
-              dest: "{{ dir.remote }}/config/influxdb-srelay.conf"
-          lab:
-            - hostname: docker-desktop 
-              labels:
-                influxdb-node: 'true'
-                # influxdb-node: master
-                # influxdb-node: srelay
-                # influxdb-syncflux: 'true'
-                # influxdb-srelay: 'true'
-          net:
-            external_net-influxdb: 
-              driver: overlay
-              attachable: true
-          env:
-            influxdb:
-              TZ: Asia/Hong_Kong
-            master:
-              TZ: Asia/Hong_Kong
-            slave:
-              TZ: Asia/Hong_Kong
-            srelay:
-              TZ: Asia/Hong_Kong
-            syncflux:
-              TZ: Asia/Hong_Kong
-        telegraf:
-          dir_copy:
-            - src: "{{ inventory_dir }}/../telegraf/telegraf.conf"
-              dest: "{{ dir.remote }}/config/telegraf.conf"
-          net:
-            external_net-influxdb: 
-              driver: overlay
-              attachable: true
-          env:
-            TZ: Asia/Hong_Kong
-          # network_wait:
-          #   external_net-influxdb:
-          #     influxdb: 8086
-          wait:
-            network:
-              - external_net-influxdb
-            port:
-              influxdb: 8086
-          # gid: 999
+            # only for stack-standalone-fixed
+            vol_cp:
+              - name: "{{ dir.names[0] }}_stack_vol-dashboards"
+                remote_src: true
+                src: "{{ dir.remote }}/dashboards/config/"
+                dest: "./"
 
-    docker-worker:
-      hosts:
-        # localhost:
-
-    docker-nfs-node:
-      hosts:
-        localhost:
+      docker-manager:
+        hosts:
+          localhost:
+        vars:
+          postgres:
+            lab:
+              - hostname: docker-desktop 
+                labels:
+                  postgres-node: primary
+                  # postgres-node: replica
+            net:
+              external_net-postgres: 
+                driver: overlay
+                attachable: true
+            env:
+              primary:
+                # PGHOST: /tmp
+                MAX_CONNECTIONS: 1000
+                MAX_WAL_SENDERS: 6
+                MODE: postgres
+                PG_DATABASE: crunchydata
+                PG_PRIMARY_PORT: 5432
+                PG_MODE: primary
+                PG_USER: crunchydata
+                PG_PASSWORD: postgres.123
+                PG_PRIMARY_USER: primaryuser
+                PG_PRIMARY_PASSWORD: postgres.123
+                PG_ROOT_PASSWORD: postgres.123
+                TZ: Asia/Hong_Kong
+              replica:
+                # PGHOST: /tmp
+                MODE: postgres
+                PG_DATABASE: crunchydata
+                PG_PRIMARY_PORT: 5432
+                PG_MODE: replica
+                PG_USER: crunchydata
+                PG_PASSWORD: postgres.123
+                PG_PRIMARY_USER: primaryuser
+                PG_PRIMARY_PASSWORD: postgres.123
+                PG_ROOT_PASSWORD: postgres.123
+                PG_PRIMARY_HOST: primary
+                TZ: Asia/Hong_Kong
+          elk:
+            dir_copy:
+              - src: "{{ inventory_dir }}/../elk/elasticsearch.yml"
+                dest: "{{ dir.remote }}/config/elasticsearch.yml"
+              - src: "{{ inventory_dir }}/../elk/logstash.yml"
+                dest: "{{ dir.remote }}/config/logstash.yml"
+              - src: "{{ inventory_dir }}/../elk/logstash.conf"
+                dest: "{{ dir.remote }}/config/logstash.conf"
+              - src: "{{ inventory_dir }}/../elk/kibana.yml"
+                dest: "{{ dir.remote }}/config/kibana.yml"
+            lab:
+              - hostname: docker-desktop 
+                labels:
+                  elk-node: e
+              - hostname: docker-desktop 
+                labels:
+                  elk-node: l
+              - hostname: docker-desktop 
+                labels:
+                  elk-node: k
+            net:
+              external_net-elk: 
+                driver: overlay
+                attachable: true
+            env:
+              elasticsearch:
+                ES_JAVA_OPTS: "-Xmx2048m -Xmx4096m"
+                ELASTIC_PASSWORD: elastic.123
+                # Use single node discovery in order to disable production mode and avoid bootstrap checks.
+                # see: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
+                discovery.type: single-node
+                # Force publishing on the 'elk' overlay.
+                network.publish_host: _eth0_
+                TZ: Asia/Hong_Kong
+              logstash:
+                LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+                TZ: Asia/Hong_Kong
+              kibana: 
+                TZ: Asia/Hong_Kong
+          logspout:
+            net:
+              external_net-elk: 
+                driver: overlay
+                attachable: true
+            env:
+              ROUTE_URIS: logstash://logstash:5000
+              LOGSTASH_TAGS: docker-elk
+              TZ: Asia/Hong_Kong
+            # network_wait:
+            #   external_net-elk:
+            #     logstash: 5000
+            wait:
+              network:
+                - external_net-elk
+              port:
+                logstash: 5000
+          influxdb:
+            dir_copy:
+              - src: "{{ inventory_dir }}/../influxdb/influxdb.conf"
+                dest: "{{ dir.remote }}/config/influxdb.conf"
+              - src: "{{ inventory_dir }}/../influxdb/syncflux.toml"
+                dest: "{{ dir.remote }}/config/syncflux.toml"
+              - src: "{{ inventory_dir }}/../influxdb/influxdb-srelay.conf"
+                dest: "{{ dir.remote }}/config/influxdb-srelay.conf"
+            lab:
+              - hostname: docker-desktop 
+                labels:
+                  influxdb-node: 'true'
+                  # influxdb-node: master
+                  # influxdb-node: srelay
+                  # influxdb-syncflux: 'true'
+                  # influxdb-srelay: 'true'
+            net:
+              external_net-influxdb: 
+                driver: overlay
+                attachable: true
+            env:
+              influxdb:
+                TZ: Asia/Hong_Kong
+              master:
+                TZ: Asia/Hong_Kong
+              slave:
+                TZ: Asia/Hong_Kong
+              srelay:
+                TZ: Asia/Hong_Kong
+              syncflux:
+                TZ: Asia/Hong_Kong
+          telegraf:
+            dir_copy:
+              - src: "{{ inventory_dir }}/../telegraf/telegraf.conf"
+                dest: "{{ dir.remote }}/config/telegraf.conf"
+            net:
+              external_net-influxdb: 
+                driver: overlay
+                attachable: true
+            env:
+              TZ: Asia/Hong_Kong
+            # network_wait:
+            #   external_net-influxdb:
+            #     influxdb: 8086
+            wait:
+              network:
+                - external_net-influxdb
+              port:
+                influxdb: 8086
+            # gid: 999
+  
+      docker-worker:
+        hosts:
+          # localhost:
+  
+      docker-nfs-node:
+        hosts:
+          localhost:
+  
