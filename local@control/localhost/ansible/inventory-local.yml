@@ -196,8 +196,6 @@ all:
           dir_copy:
             - src: "{{ inventory_dir }}/../nfs/exports"
               dest: "{{ dir.remote }}/exports/exports"
-            - src: "{{ inventory_dir }}/../nfs/data/"
-              dest: "{{ dir.remote }}/data"
           vol:
             external_vol-erichough-nfs-server:
               driver: local
@@ -218,8 +216,6 @@ all:
             dir_copy:
               - src: "{{ inventory_dir }}/../nfs/exports"
                 dest: "{{ dir.remote }}/../exports/exports"
-              - src: "{{ inventory_dir }}/../nfs/data/"
-                dest: "{{ dir.remote }}/../data"
             vol_cp:
               external_vol-erichough-nfs-server:
                 src: "{{ inventory_dir }}/../nfs/data/"
